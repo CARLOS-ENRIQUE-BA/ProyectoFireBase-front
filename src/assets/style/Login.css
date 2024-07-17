@@ -1,8 +1,9 @@
+/* Modo día */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #fff; /* Cambiado a fondo blanco para modo día */
-    color: #333; /* Cambiado a texto oscuro para modo día */
+    background-color: #fff;
+    color: #333;
 }
 
 .header {
@@ -11,16 +12,13 @@ body {
     align-items: center;
     width: 100%;
     height: 100px;
-    background-color: #f0f0f0; /* Fondo de cabecera en modo día */
+    background-color: #f0f0f0;
 }
+
 .toggle-switch {
     position: relative;
     width: 100px;
     height: 50px;
-    --light: #1B1B26;
-    --dark: #d8dbe0;
-    --link: rgb(27, 129, 112);
-    --link-hover: rgb(24, 94, 82);
     margin-right: 70px;
 }
 
@@ -28,10 +26,10 @@ body {
     position: absolute;
     width: 100%;
     height: 50px;
-    background-color: var(--dark);
+    background-color: #d8dbe0;
     border-radius: 25px;
     cursor: pointer;
-    border: 1px solid var(--dark);
+    border: 1px solid #d8dbe0;
 }
 
 .checkbox {
@@ -44,12 +42,11 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 25px;
-    -webkit-transition: 0.3s;
     transition: 0.3s;
 }
 
-.checkbox:checked~.slider {
-    background-color: var(--light);
+.checkbox:checked ~ .slider {
+    background-color: #1B1B26;
 }
 
 .slider::before {
@@ -60,19 +57,14 @@ body {
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    -webkit-box-shadow: inset 12px -4px 0px 0px var(--light);
-    box-shadow: inset 12px -4px 0px 0px var(--light);
-    background-color: var(--dark);
-    -webkit-transition: 0.3s;
+    box-shadow: inset 12px -4px 0px 0px #1B1B26;
+    background-color: #d8dbe0;
     transition: 0.3s;
 }
 
-.checkbox:checked~.slider::before {
-    -webkit-transform: translateX(50px);
-    -ms-transform: translateX(50px);
+.checkbox:checked ~ .slider::before {
     transform: translateX(50px);
-    background-color: var(--dark);
-    -webkit-box-shadow: none;
+    background-color: #ccc;
     box-shadow: none;
 }
 
@@ -81,7 +73,7 @@ body {
     margin-left: 30px;
 }
 
-.titulo-login{
+.titulo-login {
     font-size: 50px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -112,14 +104,14 @@ body {
 }
 
 .input:focus,
-input:valid {
+.input:valid {
     outline: none;
     border: 1.5px solid #FF9100;
-    color: #333; 
+    color: #333;
 }
 
-.input:focus ~ label,
-input:valid ~ label {
+.input:focus ~ .user-label,
+.input:valid ~ .user-label {
     transform: translateY(-50%) scale(0.8);
     background-color: #ffffff;
     padding: 0 .2em;
@@ -174,8 +166,8 @@ input:valid ~ label {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0; /* Fondo del footer en modo día */
-    color: #333; /* Color del texto en modo día */
+    background-color: #f0f0f0;
+    color: #333;
     height: 20vh;
 }
 
@@ -191,46 +183,46 @@ input:valid ~ label {
 
 .divider {
     width: 1px;
-    background-color: #ccc; /* Color del divisor en modo claro */
+    background-color: #ccc;
     height: 100px;
 }
 
-/* Estilos adicionales para modo oscuro */
+/* Modo oscuro */
 .dark-mode {
-    background-color: #1B1B26; /* Color de fondo en modo oscuro */
-    color: #fff; /* Color del texto en modo oscuro */
+    background-color: #1B1B26;
+    color: #fff;
 }
 
 .dark-mode .header {
-    background-color: #15151F; /* Color de fondo de la cabecera en modo oscuro */
+    background-color: #15151F;
 }
 
 .dark-mode .toggle-switch .slider {
-    background-color: #1B1B26; /* Color del slider en modo oscuro */
+    background-color: #1B1B26;
 }
 
 .dark-mode .toggle-switch .slider::before {
-    background-color: #ccc; /* Color del círculo en el slider en modo oscuro */
+    background-color: #ccc;
 }
 
 .dark-mode .input {
-    border-color: #ffffff; /* Cambia el color del borde */
+    border-color: #ffffff;
 }
 
 .dark-mode .input:focus,
 .dark-mode .input:valid {
-    background-color: #1B1B26; /* Cambia el fondo del input cuando está enfocado o es válido */
-    color: #ffffff; /* Cambia el color del texto */
+    background-color: #1B1B26;
+    color: #ffffff;
     border: 1.5px solid #FF9100;
 }
 
 .dark-mode .input:focus ~ .user-label,
 .dark-mode .input:valid ~ .user-label {
-    color: #FF9100; /* Cambia el color del label cuando el input está enfocado o es válido */
+    color: #FF9100;
     background-color: #1B1B26;
 }
 
 .dark-mode .footer {
-    background-color: #15151F; /* Color de fondo del footer en modo oscuro */
-    color: #b3b3b3; /* Color del texto en modo oscuro */
+    background-color: #15151F;
+    color: #b3b3b3;
 }

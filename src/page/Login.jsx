@@ -4,7 +4,7 @@ import Logo from '../assets/img/logo.svg';
 import '../assets/style/Login.css';
 
 const Login = () => {
-    const [isDarkMode, setIsDarkMode] = useState(true); // Cambiado a true para iniciar en modo oscuro
+    const [isDarkMode, setIsDarkMode] = useState(true);
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);

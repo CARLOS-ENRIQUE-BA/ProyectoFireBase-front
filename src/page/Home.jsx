@@ -1,13 +1,67 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import Logo from '../assets/img/logo.svg';
 import '../assets/style/Inicio.css';
 
 const Home = () => {
-    const [isDarkMode, setIsDarkMode] = useState(true); // Cambiado a true para iniciar en modo oscuro
+    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [crearBase, setCrearBase] = useState('');
+    const [usarBase, setUsarBase] = useState('');
+    const [crearTablas, setCrearTablas] = useState('');
+    const [lexicoResultado, setLexicoResultado] = useState('');
+    const [sintacticoResultado, setSintacticoResultado] = useState('');
+    const [semanticoResultado, setSemanticoResultado] = useState('');
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setIsDarkMode(savedTheme === 'dark-mode');
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light-mode');
+        }
+    }, [isDarkMode]);
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        const comando = `
+            ${crearBase ? `CREATE DATABASE ${crearBase};` : ''}
+            ${usarBase ? `USE DATABASE ${usarBase};` : ''}
+            ${crearTablas ? `CREATE TABLE ${crearTablas};` : ''}
+        `.trim();
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/procesar_comando', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ comando })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setLexicoResultado(JSON.stringify(data.lexico, null, 2));
+                setSintacticoResultado(data.sintactico);
+                setSemanticoResultado(data.semantico);
+            } else {
+                setLexicoResultado(data.error);
+                setSintacticoResultado(data.error);
+                setSemanticoResultado(data.error);
+            }
+        } catch (error) {
+            console.error('Error al ejecutar el comando:', error);
+            setLexicoResultado('Error al conectar con el servidor.');
+            setSintacticoResultado('Error al conectar con el servidor.');
+            setSemanticoResultado('Error al conectar con el servidor.');
+        }
     };
 
     return (
@@ -26,30 +80,39 @@ const Home = () => {
                     </label>
                 </div>
             </header>
-            <div className='container-main'>
-                <form className="home-form">
-                    <div className="titulo">Creación de una base de datos en firebase</div>
+            <div className="container-main">
+                <form className="home-form" onSubmit={handleFormSubmit}>
+                    <div className="titulo">Creación de una base de datos en Firebase</div>
                     <div className="input-group">
-                        <input required type="text" name="firstName" autoComplete="off" className="input" />
+                        <input
+                            type="text"
+                            value={crearBase}
+                            onChange={(e) => setCrearBase(e.target.value)}
+                            className="input"
+                            autoComplete="off"
+                        />
                         <label className="user-label">Crear base de datos</label>
                     </div>
                     <div className="input-group">
-                        <input required type="text" name="lastName" autoComplete="off" className="input" />
-                        <label className="user-label">Usar la base de datos</label>
+                        <input
+                            type="text"
+                            value={usarBase}
+                            onChange={(e) => setUsarBase(e.target.value)}
+                            className="input"
+                            autoComplete="off"
+                        />
+                        <label className="user-label">Crear base de datos</label>
                     </div>
                     <div className="input-group">
-                        <input required type="text" name="email" autoComplete="off" className="input" />
-                        <label className="user-label">Crear las tablas</label>
+                        <textarea
+                            value={crearTablas}
+                            onChange={(e) => setCrearTablas(e.target.value)}
+                            className="input"
+                            autoComplete="off"
+                        />
+                        <label className="user-label">Crear base de datos</label>
                     </div>
-                    <div className="input-group">
-                        <input required type="text" name="email" autoComplete="off" className="input" />
-                        <label className="user-label">Añadir entradas</label>
-                    </div>
-                    <div className="input-group">
-                        <input required type="text" name="email" autoComplete="off" className="input" />
-                        <label className="user-label">Modificar o eliminar datos</label>
-                    </div>
-                    <button className="home-btn">
+                    <button type="submit" className="home-btn">
                         <div className="svg-wrapper-1">
                             <div className="svg-wrapper">
                                 <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -65,15 +128,27 @@ const Home = () => {
                     <div className="titulo">Resultado de los analizadores</div>
                     <div className="input-group-2">
                         <label>Analizador léxico</label>
-                        <textarea required type="text" name="firstName" autoComplete="off" className="input" />
+                        <textarea
+                            readOnly
+                            value={lexicoResultado}
+                            className="input"
+                        />
                     </div>
                     <div className="input-group-2">
                         <label>Analizador sintáctico</label>
-                        <textarea required type="text" name="lastName" autoComplete="off" className="input" />
+                        <textarea
+                            readOnly
+                            value={sintacticoResultado}
+                            className="input"
+                        />
                     </div>
                     <div className="input-group-2">
                         <label>Analizador semántico</label>
-                        <textarea required type="text" name="email" autoComplete="off" className="input" />
+                        <textarea
+                            readOnly
+                            value={semanticoResultado}
+                            className="input"
+                        />
                     </div>
                 </form>
             </div>
