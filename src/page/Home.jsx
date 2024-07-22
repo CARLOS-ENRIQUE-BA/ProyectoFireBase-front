@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Logo from '../assets/img/logo.svg';
 import '../assets/style/Inicio.css';
 
@@ -7,38 +7,22 @@ const Home = () => {
     const [crearBase, setCrearBase] = useState('');
     const [usarBase, setUsarBase] = useState('');
     const [crearTablas, setCrearTablas] = useState('');
-    const [lexicoResultado, setLexicoResultado] = useState('');
+    const [lexicoResultado, setLexicoResultado] = useState([]);
     const [sintacticoResultado, setSintacticoResultado] = useState('');
     const [semanticoResultado, setSemanticoResultado] = useState('');
-
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            setIsDarkMode(savedTheme === 'dark-mode');
-        }
-    }, []);
-
-    useEffect(() => {
-        if (isDarkMode) {
-            document.body.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-            localStorage.setItem('theme', 'light-mode');
-        }
-    }, [isDarkMode]);
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);
     };
 
-    const handleFormSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const comando = `
-            ${crearBase ? `CREATE DATABASE ${crearBase};` : ''}
-            ${usarBase ? `USE DATABASE ${usarBase};` : ''}
-            ${crearTablas ? `CREATE TABLE ${crearTablas};` : ''}
-        `.trim();
+        const comandos = [];
+        if (crearBase) comandos.push(`CREATE DATABASE ${crearBase};`);
+        if (usarBase) comandos.push(`USE DATABASE ${usarBase};`);
+        if (crearTablas) comandos.push(`CREATE TABLE ${crearTablas};`);
+
+        const comando = comandos.join(' ');
 
         try {
             const response = await fetch('http://127.0.0.1:5000/procesar_comando', {
@@ -48,17 +32,17 @@ const Home = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setLexicoResultado(JSON.stringify(data.lexico, null, 2));
-                setSintacticoResultado(data.sintactico);
-                setSemanticoResultado(data.semantico);
+                setLexicoResultado(data.lexico.flat());
+                setSintacticoResultado(JSON.stringify(data.sintactico, null, 2));
+                setSemanticoResultado(JSON.stringify(data.semantico, null, 2));
             } else {
-                setLexicoResultado(data.error);
+                setLexicoResultado([{ error: data.error }]);
                 setSintacticoResultado(data.error);
                 setSemanticoResultado(data.error);
             }
         } catch (error) {
             console.error('Error al ejecutar el comando:', error);
-            setLexicoResultado('Error al conectar con el servidor.');
+            setLexicoResultado([{ error: 'Error al conectar con el servidor.' }]);
             setSintacticoResultado('Error al conectar con el servidor.');
             setSemanticoResultado('Error al conectar con el servidor.');
         }
@@ -80,18 +64,17 @@ const Home = () => {
                     </label>
                 </div>
             </header>
-            <div className="container-main">
-                <form className="home-form" onSubmit={handleFormSubmit}>
-                    <div className="titulo">Creación de una base de datos en Firebase</div>
+            <div className='container-main'>
+                <form className="home-form" onSubmit={handleSubmit}>
+                    <div className="titulo">Creación de una base de datos en firebase</div>
                     <div className="input-group">
                         <input
                             type="text"
                             value={crearBase}
                             onChange={(e) => setCrearBase(e.target.value)}
                             className="input"
-                            autoComplete="off"
                         />
-                        <label className="user-label">Crear base de datos</label>
+                        <label className="user-label">Crear base de datos(CREAR DATABASE)</label>
                     </div>
                     <div className="input-group">
                         <input
@@ -99,18 +82,16 @@ const Home = () => {
                             value={usarBase}
                             onChange={(e) => setUsarBase(e.target.value)}
                             className="input"
-                            autoComplete="off"
                         />
-                        <label className="user-label">Crear base de datos</label>
+                        <label className="user-label">Usar la base de datos(USAR DATABASE)</label>
                     </div>
                     <div className="input-group">
                         <textarea
                             value={crearTablas}
                             onChange={(e) => setCrearTablas(e.target.value)}
                             className="input"
-                            autoComplete="off"
                         />
-                        <label className="user-label">Crear base de datos</label>
+                        <label className="user-label">Crear las tablas(CREAR TABLE)</label>
                     </div>
                     <button type="submit" className="home-btn">
                         <div className="svg-wrapper-1">
@@ -128,11 +109,30 @@ const Home = () => {
                     <div className="titulo">Resultado de los analizadores</div>
                     <div className="input-group-2">
                         <label>Analizador léxico</label>
-                        <textarea
-                            readOnly
-                            value={lexicoResultado}
-                            className="input"
-                        />
+                        <div className="table-container">
+                        <div className="table-wrapper">
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th>Línea</th>
+                                        <th>Posición</th>
+                                        <th>Tipo de Token</th>
+                                        <th>Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {lexicoResultado.map((token, index) => (
+                                        <tr key={index}>
+                                            <td>{token.lineno}</td>
+                                            <td>{token.lexpos}</td>
+                                            <td>{token.type}</td>
+                                            <td>{token.value}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
                     </div>
                     <div className="input-group-2">
                         <label>Analizador sintáctico</label>
@@ -142,16 +142,9 @@ const Home = () => {
                             className="input"
                         />
                     </div>
-                    <div className="input-group-2">
-                        <label>Analizador semántico</label>
-                        <textarea
-                            readOnly
-                            value={semanticoResultado}
-                            className="input"
-                        />
-                    </div>
                 </form>
             </div>
+
             <footer className='footer'>
                 <div className="person1">
                     <div className="name">Carlos Enrique Barriga Aguilar</div>

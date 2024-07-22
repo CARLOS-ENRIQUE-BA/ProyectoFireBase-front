@@ -1,8 +1,8 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #fff; /* Cambiado a fondo blanco para modo día */
-    color: #333; /* Cambiado a texto oscuro para modo día */
+    background-color: #fff;
+    color: #333;
 }
 
 .header {
@@ -11,8 +11,9 @@ body {
     align-items: center;
     width: 100%;
     height: 100px;
-    background-color: #f0f0f0; /* Fondo de cabecera en modo día */
+    background-color: #f0f0f0;
 }
+
 .toggle-switch {
     position: relative;
     width: 100px;
@@ -120,7 +121,6 @@ body {
     color: #FF9100;
 }
 
-
 .home-form {
     display: flex;
     flex-direction: column;
@@ -135,72 +135,71 @@ body {
 }
 
 button {
-  font-family: inherit;
-  font-size: 18px;
-  background: linear-gradient(to bottom, #FF9100 0%,#DD2C00 100%);
-  color: white;
-  padding: 0.8em 1.2em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 25px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s;
-  margin-top: 80px;
-  width: 444px;
+    font-family: inherit;
+    font-size: 18px;
+    background: linear-gradient(to bottom, #FF9100 0%, #DD2C00 100%);
+    color: white;
+    padding: 0.8em 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+    margin-top: 80px;
+    width: 444px;
 }
 
 button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-  padding: 0em;
-  background: linear-gradient(to bottom, #FF9100 0%,#DD2C00 100%);
-  cursor: pointer;
+    transform: translateY(-3px);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+    padding: 0em;
+    background: linear-gradient(to bottom, #FF9100 0%, #DD2C00 100%);
+    cursor: pointer;
 }
 
 button:active {
-  transform: scale(0.95);
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 button span {
-  display: block;
-  margin-left: 0.4em;
-  transition: all 0.3s;
+    display: block;
+    margin-left: 0.4em;
+    transition: all 0.3s;
 }
 
 button svg {
-  width: 18px;
-  height: 18px;
-  fill: white;
-  transition: all 0.3s;
+    width: 18px;
+    height: 18px;
+    fill: white;
+    transition: all 0.3s;
 }
 
 button .svg-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
-  transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s;
 }
 
 button:hover .svg-wrapper {
-  background: linear-gradient(to bottom, #FF9100 0%,#DD2C00 100%);
-  width: 54px;
-  height: 54px;
+    background: linear-gradient(to bottom, #FF9100 0%, #DD2C00 100%);
+    width: 54px;
+    height: 54px;
 }
 
 button:hover svg {
-  width: 25px;
-  height: 25px;
-  margin-right: 5px;
-  transform: rotate(405deg);
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+    transform: rotate(405deg);
 }
-
 
 .footer {
     position: relative;
@@ -210,8 +209,8 @@ button:hover svg {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0; /* Fondo del footer en modo día */
-    color: #333; /* Color del texto en modo día */
+    background-color: #f0f0f0;
+    color: #333;
     height: 20vh;
 }
 
@@ -227,26 +226,25 @@ button:hover svg {
 
 .divider {
     width: 1px;
-    background-color: #ccc; /* Color del divisor en modo claro */
+    background-color: #ccc;
     height: 100px;
 }
 
-/* Estilos adicionales para modo oscuro */
 .dark-mode {
-    background-color: #1B1B26; /* Color de fondo en modo oscuro */
-    color: #fff; /* Color del texto en modo oscuro */
+    background-color: #1B1B26;
+    color: #fff;
 }
 
 .dark-mode .header {
-    background-color: #15151F; /* Color de fondo de la cabecera en modo oscuro */
+    background-color: #15151F;
 }
 
 .dark-mode .toggle-switch .slider {
-    background-color: #1B1B26; /* Color del slider en modo oscuro */
+    background-color: #1B1B26;
 }
 
 .dark-mode .toggle-switch .slider::before {
-    background-color: #ccc; /* Color del círculo en el slider en modo oscuro */
+    background-color: #ccc;
 }
 
 .dark-mode .input {
@@ -268,26 +266,23 @@ button:hover svg {
 
 .dark-mode .input:focus,
 .dark-mode .input:valid {
-    background-color: #1B1B26; /* Cambia el fondo del textarea cuando está enfocado o es válido */
-    color: #ffffff; /* Cambia el color del texto del textarea */
-    border: 1.5px solid #FF9100; /* Cambia el borde del textarea */
+    background-color: #1B1B26;
+    color: #ffffff;
+    border: 1.5px solid #FF9100;
 }
 
 .dark-mode .input:focus ~ .user-label,
 .dark-mode .input:valid ~ .user-label {
-    color: #FF9100; /* Cambia el color del label cuando el textarea está enfocado o es válido */
-    background-color: #1B1B26; /* Cambia el fondo del label cuando el textarea está enfocado o es válido */
+    color: #FF9100;
+    background-color: #1B1B26;
 }
-
 
 .dark-mode .footer {
-    background-color: #15151F; /* Color de fondo del footer en modo oscuro */
-    color: #b3b3b3; /* Color del texto en modo oscuro */
+    background-color: #15151F;
+    color: #b3b3b3;
 }
 
-
-
-.container-main{
+.container-main {
     display: flex;
     justify-content: center;
     height: 120vh;
@@ -300,7 +295,7 @@ button:hover svg {
     width: 45%;
 }
 
-.input-group-2{
+.input-group-2 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -309,4 +304,78 @@ button:hover svg {
 
 .input-group-2 label {
     margin-bottom: 30px;
+}
+
+/* Estilos para la tabla */
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.table-wrapper {
+    max-height: 250px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    text-align: left;
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    border: 1px solid black;
+}
+
+.table thead tr {
+    background-color: #FF9100;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.table tbody tr:last-of-type {
+    border-bottom: 2px solid #FF9100;
+}
+
+.table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.dark-mode .table thead tr {
+    background-color: #333;
+}
+
+.dark-mode .table tbody tr {
+    border-bottom: 1px solid #555;
+}
+
+.dark-mode .table tbody tr:nth-of-type(even) {
+    background-color: #444;
+}
+
+.dark-mode .table tbody tr:hover {
+    background-color: #555;
+}
+
+
+.dark-mode 
+.table th,
+.table td {
+    border: 1px solid white;
 }

@@ -1,13 +1,42 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../assets/img/logo.svg';
 import '../assets/style/Login.css';
 
 const Login = () => {
     const [isDarkMode, setIsDarkMode] = useState(true);
+    const [ip, setIp] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmation, setConfirmation] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (password !== confirmation) {
+            setError('Las contraseñas no coinciden.');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ip, password })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                navigate('/inicio');
+            } else {
+                setError(data.error);
+            }
+        } catch (error) {
+            setError('Error al conectar con el servidor.');
+        }
     };
 
     return (
@@ -26,21 +55,46 @@ const Login = () => {
                     </label>
                 </div>
             </header>
-            <form className="login-form">
+            <form className="login-form" onSubmit={handleSubmit}>
                 <div className="titulo-login">Login</div>
+                {error && <p className="error-message">{error}</p>}
                 <div className="input-group">
-                    <input required type="text" name="firstName" autoComplete="off" className="input" />
+                    <input
+                        required
+                        type="text"
+                        name="ip"
+                        autoComplete="off"
+                        className="input"
+                        value={ip}
+                        onChange={(e) => setIp(e.target.value)}
+                    />
                     <label className="user-label">IP: Base de datos</label>
                 </div>
                 <div className="input-group">
-                    <input required type="text" name="lastName" autoComplete="off" className="input" />
+                    <input
+                        required
+                        type="password"
+                        name="password"
+                        autoComplete="off"
+                        className="input"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
                     <label className="user-label">Contraseña</label>
                 </div>
                 <div className="input-group">
-                    <input required type="text" name="email" autoComplete="off" className="input" />
+                    <input
+                        required
+                        type="password"
+                        name="confirmation"
+                        autoComplete="off"
+                        className="input"
+                        value={confirmation}
+                        onChange={(e) => setConfirmation(e.target.value)}
+                    />
                     <label className="user-label">Confirmación</label>
                 </div>
-                <Link to="/inicio" className="login-btn">Iniciar</Link>
+                <button type="submit" className="login-btn">Iniciar</button>
             </form>
             <footer className='footer'>
                 <div className="person1">
